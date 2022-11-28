@@ -10,6 +10,7 @@ class Parser:
         super().__init__()
 
     def parse(self, numcase: str, year: str, person: str, proceedings_type: str, courts: str):
+        # todo проверить работу всех запросов
         result = []
         courtslist = self.parse_courts(courts)
         begin_date = '01.01.' + year
@@ -44,6 +45,7 @@ class Parser:
         return arr
 
     def parsesite(self, site_addr: str):
+        # todo добавить ссылки для полных для того чтобы можно было переходить во внешний броузер
         result = []
         # итерация по страницам
         page = 0

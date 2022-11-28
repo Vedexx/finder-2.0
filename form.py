@@ -93,7 +93,8 @@ class Form(QWidget):
         grid.addWidget(self.search_area_field, 5, 8, 1, 1)
 
         self.text_browser = QTextBrowser()
-        self.text_browser.setFont(font)
+        self.text_browser.setOpenExternalLinks(True)
+        # self.text_browser.setFont(font)
         grid.addWidget(self.text_browser, 6, 0, 1, 9)
 
         progress_bar = QProgressBar()
@@ -135,8 +136,9 @@ class Form(QWidget):
         person = self.person_field.text()
         try:
             result = self.parser.parse(num_case, year, person, proceedings_type, courts)
+            print(*result, sep='\n')
             for row in result:
-                self.text_browser.append(row)
+                self.text_browser.append(str(row))
         except Exception as e:
             print(e)
 
