@@ -3,7 +3,10 @@ import Parser
 from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QTextEdit, QGridLayout, QApplication, QGroupBox, QTextBrowser,
                              QPushButton, QProgressBar, QRadioButton, QButtonGroup)
 from PyQt5 import QtGui, QtWebEngineWidgets
-
+# todo Добавить фон в пустую страницу
+# todo отчистка экрана при старте парсинга
+# todo сделать видимыми границы в таблице
+# todo прогресс бар
 
 
 class Form(QWidget):
