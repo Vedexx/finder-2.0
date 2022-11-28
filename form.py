@@ -2,7 +2,8 @@ import sys
 import Parser
 from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QTextEdit, QGridLayout, QApplication, QGroupBox, QTextBrowser,
                              QPushButton, QProgressBar, QRadioButton, QButtonGroup)
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtWebEngineWidgets
+
 
 
 class Form(QWidget):
@@ -132,9 +133,13 @@ class Form(QWidget):
             courts = self.search_area_field.text()
 
         person = self.person_field.text()
-        result = self.parser.parse(numcase, year, person, proceedings_type, courts)
-        for row in result:
-            self.text_browser.append(row)
+        try:
+            result = self.parser.parse(num_case, year, person, proceedings_type, courts)
+            for row in result:
+                self.text_browser.append(row)
+        except Exception as e:
+            print(e)
+
         #
         # print('номер дела:', num_case)
         # print('год:', year)
