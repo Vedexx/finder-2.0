@@ -97,6 +97,7 @@ class Form(QWidget):
 
         self.text_browser = QTextBrowser()
         self.text_browser.setOpenExternalLinks(True)
+        self.text_browser.setText('<body background="background.jpg" >')
         # self.text_browser.setFont(font)
         grid.addWidget(self.text_browser, 6, 0, 1, 9)
 
@@ -118,6 +119,8 @@ class Form(QWidget):
             self.search_area_field.setEnabled(False)
 
     def search(self):
+        self.text_browser.clear()
+        self.text_browser.setText('<img src="background.jpg" width="100%">')
         num_case = self.num_case_field.text()
         year = self.year_field.text()
         proceedings_type = ''
