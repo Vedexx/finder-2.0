@@ -94,19 +94,18 @@ class Form(QWidget):
         self.search_area_field.setFont(font)
         self.search_area_field.setEnabled(False)
         grid.addWidget(self.search_area_field, 5, 8, 1, 1)
-
         self.text_browser = QTextBrowser()
         self.text_browser.setOpenExternalLinks(True)
-        self.text_browser.setText('<body background="background.jpg" >')
-        # self.text_browser.setFont(font)
+        self.text_browser.setStyleSheet('border-image: url("background.jpg")')
+
         grid.addWidget(self.text_browser, 6, 0, 1, 9)
 
-        progress_bar = QProgressBar()
-        grid.addWidget(progress_bar, 7, 0, 1, 9)
+        self.progress_bar = QProgressBar()
+        grid.addWidget(self.progress_bar, 7, 0, 1, 9)
 
         self.setLayout(grid)
 
-        self.setGeometry(300, 100, 500, 500)
+        self.setGeometry(300, 100, 500, 700)
         self.setWindowTitle('Review')
         self.show()
 
@@ -120,7 +119,26 @@ class Form(QWidget):
 
     def search(self):
         self.text_browser.clear()
-        self.text_browser.setText('<img src="background.jpg" width="100%">')
+        html_doc = '''
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html><head><meta name="qrichtext" content="1" />
+<style type="text/css">
+p, li { white-space: pre-wrap; }
+table{
+    border: 4px solid black;
+    border-collapse: collapse;
+    font-size: 14px;
+    
+}
+td{
+    border: 1px solid black;
+    padding:2px;
+}
+</style></head>
+<body style=" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal; ">
+<table>
+'''
+
         num_case = self.num_case_field.text()
         year = self.year_field.text()
         proceedings_type = ''
@@ -141,13 +159,16 @@ class Form(QWidget):
 
         person = self.person_field.text()
         try:
-            result = self.parser.parse(num_case, year, person, proceedings_type, courts)
+            result = self.parser.parse(num_case, year, person, proceedings_type, courts, self.progress_bar)
             print(*result, sep='\n')
             for row in result:
-                self.text_browser.append(str(row))
+                html_doc = html_doc + '<tr>' + str(row)+'</tr>'
+                # self.text_browser.append('<tr>' + str(row)+'</tr>')
         except Exception as e:
             print(e)
-
+        html_doc +='</table></body>'
+        self.text_browser.setText(html_doc)
+        self.progress_bar.reset()
         #
         # print('номер дела:', num_case)
         # print('год:', year)
